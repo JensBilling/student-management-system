@@ -39,4 +39,14 @@ public class StudentService {
     public Student findStudentById(Long studentId) {
         return entityManager.find(Student.class, studentId);
     }
+
+    public boolean isEmailAddressAlreadyUsed(String email) {
+        List<String> listOfEmails = entityManager.createQuery("SELECT s.email FROM Student s", String.class).getResultList();
+        for (String emailInDatabase : listOfEmails) {
+            if (emailInDatabase.equalsIgnoreCase(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

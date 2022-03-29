@@ -21,7 +21,10 @@ public class StudentRest {
     @POST
     public Response createStudent(Student student) {
 
-        // TODO: make sure email is unique
+        if (studentService.isEmailAddressAlreadyUsed(student.getEmail())){
+            return Response.status(Response.Status.CONFLICT)
+                    .entity("E-mail address " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build();
+        }
         // TODO: make sure all fields are required except phone number
 
         studentService.createItem(student);
