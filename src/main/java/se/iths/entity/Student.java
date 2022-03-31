@@ -11,7 +11,6 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    // TODO: Add response message telling client why request 400'd
     @NotNull @NotBlank private String firstName;
     @NotNull @NotBlank private String lastName;
     @NotNull @NotBlank private String email;

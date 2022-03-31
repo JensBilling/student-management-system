@@ -4,6 +4,7 @@ import se.iths.entity.Student;
 import se.iths.service.StudentService;
 
 import javax.inject.Inject;
+import javax.validation.ValidationException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,8 +26,14 @@ public class StudentRest {
             return Response.status(Response.Status.CONFLICT)
                     .entity("E-mail address " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build();
         }
+        try {
+            studentService.createItem(student);
+        } catch (ValidationException ve) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
+                    .entity("You have to enter your first name, last name and e-mail address!\n\nException: " + ve).type(MediaType.TEXT_PLAIN_TYPE).build());
 
-        studentService.createItem(student);
+        }
+
         return Response.ok().entity("Student created").type(MediaType.TEXT_PLAIN_TYPE).build();
     }
 
@@ -40,8 +47,7 @@ public class StudentRest {
     @GET
     public Response getStudentsFromLastName(@QueryParam("lastname") String lastName) {
         List<Student> foundStudents = studentService.findStudentsFromLastName(lastName);
-
-        if (foundStudents.size() == 0) {
+          if (foundStudents.size() == 0) {
 
             throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
                     .entity("No students found with last name: " + lastName + ".").type(MediaType.TEXT_PLAIN_TYPE).build());
