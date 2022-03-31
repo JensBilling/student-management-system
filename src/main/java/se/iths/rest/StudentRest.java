@@ -21,11 +21,10 @@ public class StudentRest {
     @POST
     public Response createStudent(Student student) {
 
-        if (studentService.isEmailAddressAlreadyUsed(student.getEmail())){
+        if (studentService.isEmailAddressAlreadyUsed(student.getEmail())) {
             return Response.status(Response.Status.CONFLICT)
                     .entity("E-mail address " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build();
         }
-        // TODO: make sure all fields are required except phone number
 
         studentService.createItem(student);
         return Response.ok().entity("Student created").type(MediaType.TEXT_PLAIN_TYPE).build();
@@ -43,8 +42,9 @@ public class StudentRest {
         List<Student> foundStudents = studentService.findStudentsFromLastName(lastName);
 
         if (foundStudents.size() == 0) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("No students found with last name: " + lastName + ".").type(MediaType.TEXT_PLAIN_TYPE).build();
+
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
+                    .entity("No students found with last name: " + lastName + ".").type(MediaType.TEXT_PLAIN_TYPE).build());
         }
         return Response.ok(foundStudents).build();
     }
@@ -83,9 +83,9 @@ public class StudentRest {
 
     @Path("{id}")
     @DELETE
-    public Response deleteStudent(@PathParam("id") Long studentId){
+    public Response deleteStudent(@PathParam("id") Long studentId) {
         Student foundStudent = studentService.findStudentById(studentId);
-        if (foundStudent == null){
+        if (foundStudent == null) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("No student found with id: " + studentId + ".").type(MediaType.TEXT_PLAIN_TYPE).build();
         }
