@@ -28,6 +28,10 @@ public class Subject {
         this.teacher = teacher;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getSubject() {
         return subject;
     }

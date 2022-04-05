@@ -19,8 +19,10 @@ public class Student {
     @NotNull @NotBlank private String email;
     private String phoneNumber;
 
-    @ManyToMany
+    /*@ManyToMany
     private List<Subject> subjects = new ArrayList<>();
+
+     */
 
     public Student() {
     }
