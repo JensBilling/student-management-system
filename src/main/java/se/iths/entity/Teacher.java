@@ -20,9 +20,14 @@ public class Teacher {
     public Teacher() {
     }
 
+
     public Teacher(String name, List<Subject> subjects) {
         Name = name;
     //    this.subjects = subjects;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
