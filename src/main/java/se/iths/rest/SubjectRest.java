@@ -18,7 +18,7 @@ public class SubjectRest {
 
     @Path("")
     @POST
-    public Response createSubject(Subject subject){
+    public Response createSubject(Subject subject) {
 
         // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
 
@@ -29,12 +29,22 @@ public class SubjectRest {
 
     @Path("add")
     @GET
-    public Response addStudentToSubject(@QueryParam("subjectid") Long subjectId, @QueryParam("studentid") Long studentId){
+    public Response addStudentToSubject(@QueryParam("subjectid") Long subjectId, @QueryParam("studentid") Long studentId) {
         subjectService.addStudentToSubject(subjectId, studentId);
 
         // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
 
         return Response.ok().entity("Student added to subject").type(MediaType.TEXT_PLAIN_TYPE).build();
 
+    }
+
+    @Path("search")
+    @GET
+    public Response getAllStudentsAndTeacherFromSubject(@QueryParam("subjectid") Long subjectId) {
+        Subject foundSubject = subjectService.findSubjectById(subjectId);
+
+        // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
+
+        return Response.ok(foundSubject).build();
     }
 }

@@ -32,4 +32,5 @@ public class SubjectService {
         foundSubject.addStudent(foundStudent);
         entityManager.persist(foundSubject);
     }
+
 }
