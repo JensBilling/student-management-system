@@ -1,7 +1,7 @@
 package se.iths.rest;
 
-import se.iths.entity.Subject;
-import se.iths.service.SubjectService;
+import se.iths.entity.Teacher;
+import se.iths.service.TeacherService;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -11,22 +11,22 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("subjects")
+@Path("teachers")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class SubjectRest {
+public class TeacherRest {
 
     @Inject
-    SubjectService subjectService;
+    TeacherService teacherService;
 
     @Path("")
     @POST
-    public Response createSubject(Subject subject){
+    public Response createTeacher(Teacher teacher){
 
         // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
 
-        subjectService.createSubject(subject);
+        teacherService.createTeacher(teacher);
 
-        return Response.ok().entity("Subject created").type(MediaType.TEXT_PLAIN_TYPE).build();
+        return Response.ok().entity("Teacher created").type(MediaType.TEXT_PLAIN_TYPE).build();
     }
 }
