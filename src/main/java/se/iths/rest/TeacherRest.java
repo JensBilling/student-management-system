@@ -36,7 +36,16 @@ public class TeacherRest {
 
         // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
 
-
         return Response.ok().entity("Teacher updated").type(MediaType.TEXT_PLAIN_TYPE).build();
+    }
+
+    @Path("{id}")
+    @DELETE
+    public Response deleteTeacher(@PathParam("id") Long teacherId) {
+        teacherService.deleteTeacher(teacherId);
+
+        // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
+
+        return Response.ok().entity("Teacher deleted").type(MediaType.TEXT_PLAIN_TYPE).build();
     }
 }

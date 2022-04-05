@@ -24,4 +24,8 @@ public class TeacherService {
     public void updateTeacher(Teacher foundTeacher) {
         entityManager.merge(foundTeacher);
     }
+
+    public void deleteTeacher(Long teacherId) {
+        entityManager.remove(entityManager.find(Teacher.class, teacherId));
+    }
 }
