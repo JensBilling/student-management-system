@@ -27,7 +27,7 @@ public class SubjectRest {
         return Response.ok().entity("Subject created").type(MediaType.TEXT_PLAIN_TYPE).build();
     }
 
-    @Path("add")
+    @Path("addstudent")
     @GET
     public Response addStudentToSubject(@QueryParam("subjectid") Long subjectId, @QueryParam("studentid") Long studentId) {
         subjectService.addStudentToSubject(subjectId, studentId);
@@ -35,6 +35,17 @@ public class SubjectRest {
         // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
 
         return Response.ok().entity("Student added to subject").type(MediaType.TEXT_PLAIN_TYPE).build();
+
+    }
+
+    @Path("addteacher")
+    @GET
+    public Response addTeacherToSubject(@QueryParam("subjectid") Long subjectId, @QueryParam("teacherid") Long teacherId) {
+        subjectService.addTeacherToSubject(subjectId, teacherId);
+
+        // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
+
+        return Response.ok().entity("Teacher added to subject").type(MediaType.TEXT_PLAIN_TYPE).build();
 
     }
 
