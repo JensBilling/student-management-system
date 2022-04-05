@@ -58,4 +58,14 @@ public class SubjectRest {
 
         return Response.ok(foundSubject).build();
     }
+
+    @Path("{id}")
+    @DELETE
+    public Response deleteSubject(@PathParam("id") Long subjectId){
+        subjectService.deleteSubject(subjectId);
+
+        // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
+
+        return Response.ok("Subject with id: " + subjectId + " deleted.").build();
+    }
 }

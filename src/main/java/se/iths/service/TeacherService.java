@@ -17,4 +17,11 @@ public class TeacherService {
     }
 
 
+    public Teacher findTeacherFromId(Long teacherId) {
+        return entityManager.find(Teacher.class, teacherId);
+    }
+
+    public void updateTeacher(Teacher foundTeacher) {
+        entityManager.merge(foundTeacher);
+    }
 }

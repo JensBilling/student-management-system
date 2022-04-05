@@ -46,4 +46,7 @@ public class SubjectService {
         entityManager.persist(foundSubject);
     }
 
+    public void deleteSubject(Long subjectId) {
+        entityManager.remove(entityManager.find(Subject.class, subjectId));
+    }
 }
