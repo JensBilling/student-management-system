@@ -4,10 +4,7 @@ import se.iths.entity.Subject;
 import se.iths.service.SubjectService;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -28,5 +25,16 @@ public class SubjectRest {
         subjectService.createSubject(subject);
 
         return Response.ok().entity("Subject created").type(MediaType.TEXT_PLAIN_TYPE).build();
+    }
+
+    @Path("add")
+    @GET
+    public Response addStudentToSubject(@QueryParam("subjectid") Long subjectId, @QueryParam("studentid") Long studentId){
+        subjectService.addStudentToSubject(subjectId, studentId);
+
+        // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
+
+        return Response.ok().entity("Student added to subject").type(MediaType.TEXT_PLAIN_TYPE).build();
+
     }
 }

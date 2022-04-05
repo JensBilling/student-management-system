@@ -1,5 +1,6 @@
 package se.iths.service;
 
+import se.iths.entity.Student;
 import se.iths.entity.Subject;
 
 import javax.persistence.EntityManager;
@@ -14,5 +15,21 @@ public class SubjectService {
 
     public void createSubject(Subject subject) {
         entityManager.persist(subject);
+    }
+
+    public Subject findSubjectById(Long subjectId) {
+        return entityManager.find(Subject.class, subjectId);
+    }
+
+    public Student findStudentById(Long studentId) {
+        return entityManager.find(Student.class, studentId);
+    }
+
+    public void addStudentToSubject(Long subjectId, Long studentId) {
+        Subject foundSubject = findSubjectById(subjectId);
+        Student foundStudent = findStudentById(studentId);
+
+        foundSubject.addStudent(foundStudent);
+        entityManager.persist(foundSubject);
     }
 }

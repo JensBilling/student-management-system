@@ -14,7 +14,7 @@ public class Subject {
     private String subject;
 
     @ManyToMany
-    private List<Student> studentsInSubject = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
 
     @ManyToOne
     private Teacher teacher;
@@ -22,9 +22,9 @@ public class Subject {
     public Subject() {
     }
 
-    public Subject(String subject, List<Student> studentsInSubject, Teacher teacher) {
+    public Subject(String subject, List<Student> students, Teacher teacher) {
         this.subject = subject;
-        this.studentsInSubject = studentsInSubject;
+        this.students = students;
         this.teacher = teacher;
     }
 
@@ -36,12 +36,16 @@ public class Subject {
         this.subject = subject;
     }
 
-    public List<Student> getStudentsInSubject() {
-        return studentsInSubject;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void setStudentsInSubject(List<Student> studentsInSubject) {
-        this.studentsInSubject = studentsInSubject;
+    public void setStudents(List<Student> studentsInSubject) {
+        this.students = studentsInSubject;
+    }
+
+    public void addStudent(Student student){
+        students.add(student);
     }
 
     public Teacher getTeacher() {
