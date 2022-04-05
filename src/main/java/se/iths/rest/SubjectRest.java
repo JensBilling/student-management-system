@@ -35,6 +35,16 @@ public class SubjectRest {
         // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
 
         return Response.ok().entity("Student added to subject").type(MediaType.TEXT_PLAIN_TYPE).build();
+    }
+
+    @Path("removestudent")
+    @DELETE
+    public Response removeStudentFromSubject(@QueryParam("subjectid") Long subjectId, @QueryParam("studentid") Long studentId) {
+        subjectService.removeStudentFromSubject(subjectId, studentId);
+
+        // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
+
+        return Response.ok().entity("Student removed from subject").type(MediaType.TEXT_PLAIN_TYPE).build();
 
     }
 

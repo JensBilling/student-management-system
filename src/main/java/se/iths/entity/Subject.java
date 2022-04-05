@@ -59,4 +59,16 @@ public class Subject {
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
     }
+
+    public void removeStudent(Long studentId) {
+        int indexOfStudent = -1;
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getId() == studentId){
+                indexOfStudent = i;
+            }
+        }
+        if (indexOfStudent >= 0){
+            students.remove(indexOfStudent);
+        }
+    }
 }

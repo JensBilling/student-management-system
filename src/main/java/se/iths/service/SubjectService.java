@@ -49,4 +49,10 @@ public class SubjectService {
     public void deleteSubject(Long subjectId) {
         entityManager.remove(entityManager.find(Subject.class, subjectId));
     }
+
+    public void removeStudentFromSubject(Long subjectId, Long studentId) {
+        Subject foundSubject = entityManager.find(Subject.class, subjectId);
+        foundSubject.removeStudent(studentId);
+        entityManager.merge(foundSubject);
+    }
 }
