@@ -12,15 +12,17 @@ public class Teacher {
 
     private String Name;
 
+    /*
     @OneToMany
     private List<Subject> subjects;
+     */
 
     public Teacher() {
     }
 
     public Teacher(String name, List<Subject> subjects) {
         Name = name;
-        this.subjects = subjects;
+    //    this.subjects = subjects;
     }
 
     public String getName() {
@@ -31,6 +33,7 @@ public class Teacher {
         Name = name;
     }
 
+    /*
     public List<Subject> getSubjects() {
         return subjects;
     }
@@ -38,4 +41,5 @@ public class Teacher {
     public void setSubjects(List<Subject> subjects) {
         this.subjects = subjects;
     }
+     */
 }
