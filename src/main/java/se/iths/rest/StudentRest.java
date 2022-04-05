@@ -27,7 +27,7 @@ public class StudentRest {
                     .entity("E-mail address " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build();
         }
         try {
-            studentService.createItem(student);
+            studentService.createStudent(student);
         } catch (ValidationException ve) {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
                     .entity("You have to enter your first name, last name and e-mail address!\n\nException: " + ve).type(MediaType.TEXT_PLAIN_TYPE).build());

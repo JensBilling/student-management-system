@@ -14,7 +14,7 @@ public class StudentService {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void createItem(Student student) {
+    public void createStudent(Student student) {
         entityManager.persist(student);
     }
 
