@@ -1,6 +1,7 @@
 package se.iths.rest;
 
 import se.iths.entity.Student;
+import se.iths.responsehandling.CustomHttpResponse;
 import se.iths.service.StudentService;
 
 import javax.inject.Inject;
@@ -23,23 +24,32 @@ public class StudentRest {
     public Response createStudent(Student student) {
 
         if (studentService.isEmailAddressAlreadyUsed(student.getEmail())) {
-            return Response.status(Response.Status.CONFLICT)
-                    .entity("E-mail address " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build();
+
+            throw new WebApplicationException(Response.status(Response.Status.CONFLICT)
+                    .entity(new CustomHttpResponse(409, "Conflict",
+                            "The email-address is already in use")).build());
         }
         try {
             studentService.createStudent(student);
         } catch (ValidationException ve) {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
-                    .entity("You have to enter your first name, last name and e-mail address!\n\nException: " + ve).type(MediaType.TEXT_PLAIN_TYPE).build());
+                    .entity(new CustomHttpResponse(400, "Bad Request",
+                           "It's mandatory to enter you first name, last name and email-address")).build());
 
         }
 
-        return Response.ok().entity("Student created").type(MediaType.TEXT_PLAIN_TYPE).build();
+        return Response.ok().entity(new CustomHttpResponse(200, "OK",
+                "Student created")).build();
     }
 
     @Path("")
     @GET
     public Response getAllStudents() {
+        if (studentService.findAllStudents().size() < 1){
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
+                    .entity(new CustomHttpResponse(404, "Not Found",
+                            "No students found")).build());
+        }
         return Response.ok(studentService.findAllStudents()).build();
     }
 
@@ -49,8 +59,9 @@ public class StudentRest {
         List<Student> foundStudents = studentService.findStudentsFromLastName(lastName);
           if (foundStudents.size() == 0) {
 
-            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
-                    .entity("No students found with last name: " + lastName + ".").type(MediaType.TEXT_PLAIN_TYPE).build());
+              throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
+                      .entity(new CustomHttpResponse(404, "Not Found",
+                              "No students found with last name: " + lastName + ".")).build());
         }
         return Response.ok(foundStudents).build();
     }
@@ -62,8 +73,9 @@ public class StudentRest {
         Student foundStudent = studentService.findStudentById(studentId);
 
         if (foundStudent == null) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("No student found with id: " + studentId + ".").type(MediaType.TEXT_PLAIN_TYPE).build();
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
+                    .entity(new CustomHttpResponse(404, "Not Found",
+                            "No student found with id: " + studentId + ".")).build());
         }
 
         //Only apply changes that are not null
@@ -92,11 +104,13 @@ public class StudentRest {
     public Response deleteStudent(@PathParam("id") Long studentId) {
         Student foundStudent = studentService.findStudentById(studentId);
         if (foundStudent == null) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("No student found with id: " + studentId + ".").type(MediaType.TEXT_PLAIN_TYPE).build();
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
+                    .entity(new CustomHttpResponse(404, "Not Found",
+                            "No student found with id: " + studentId + ".")).build());
         }
         studentService.deleteStudent(studentId);
-        return Response.ok().entity("Student with id: " + studentId + " deleted from database.")
-                .type(MediaType.TEXT_PLAIN_TYPE).build();
+        return Response.ok().entity(new CustomHttpResponse(200, "OK",
+                        "Student with id: " + studentId + " deleted from database."))
+                .build();
     }
 }
