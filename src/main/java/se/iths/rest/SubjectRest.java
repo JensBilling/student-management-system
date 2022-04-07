@@ -97,6 +97,39 @@ public class SubjectRest {
                         "Student with id: " + studentId + " is not assigned to that subject.")).build());
     }
 
+    @Path("removeteacher")
+    @DELETE
+    public Response removeTeacherFromSubject(@QueryParam("subjectid") Long subjectId, @QueryParam("teacherid") Long teacherId) {
+        Subject foundSubject = subjectService.findSubjectById(subjectId);
+        Teacher foundTeacher = subjectService.findTeacherById(teacherId);
+
+        // Check if subject exists
+        if (foundSubject == null) {
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
+                    .entity(new CustomHttpResponse(404, "Not Found",
+                            "No subject with id: " + subjectId + " found.")).build());
+        }
+        // Check if teacher exists
+        if (foundTeacher == null) {
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
+                    .entity(new CustomHttpResponse(404, "Not Found",
+                            "No teacher with id: " + teacherId + " found.")).build());
+        }
+        // Check if student is already assigned to subject
+
+        if (foundSubject.getTeacher() != null) {
+            if (foundSubject.getTeacher().getId() == teacherId) {
+                subjectService.removeTeacherFromSubject(subjectId, teacherId);
+                return Response.ok().entity(new CustomHttpResponse(200, "OK",
+                        "Teacher removed from subject.")).build();
+            }
+        }
+
+        throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
+                .entity(new CustomHttpResponse(404, "Not Found",
+                        "Teacher with id: " + teacherId + " is not assigned to that subject.")).build());
+    }
+
     @Path("addteacher")
     @GET
     public Response addTeacherToSubject(@QueryParam("subjectid") Long subjectId, @QueryParam("teacherid") Long teacherId) {
@@ -124,7 +157,7 @@ public class SubjectRest {
     @GET
     public Response getAllStudentsAndTeacherFromSubject(@QueryParam("subjectid") Long subjectId) {
         Subject foundSubject = subjectService.findSubjectById(subjectId);
-        if (foundSubject == null){
+        if (foundSubject == null) {
             throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
                     .entity(new CustomHttpResponse(404, "Not Found",
                             "No subject with id: " + subjectId + " found.")).build());
@@ -136,7 +169,7 @@ public class SubjectRest {
     @Path("{id}")
     @DELETE
     public Response deleteSubject(@PathParam("id") Long subjectId) {
-        if (subjectService.findSubjectById(subjectId) == null){
+        if (subjectService.findSubjectById(subjectId) == null) {
             throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
                     .entity(new CustomHttpResponse(404, "Not Found",
                             "No subject with id: " + subjectId + " found.")).build());

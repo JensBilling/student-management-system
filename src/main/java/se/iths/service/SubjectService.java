@@ -55,4 +55,11 @@ public class SubjectService {
         foundSubject.removeStudent(studentId);
         entityManager.merge(foundSubject);
     }
+
+    public void removeTeacherFromSubject(Long subjectId, Long teacherId) {
+        Subject foundSubject = entityManager.find(Subject.class, subjectId);
+        foundSubject.setTeacher(null);
+        entityManager.merge(foundSubject);
+
+    }
 }

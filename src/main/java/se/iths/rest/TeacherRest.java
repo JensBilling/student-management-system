@@ -1,5 +1,6 @@
 package se.iths.rest;
 
+import se.iths.entity.Subject;
 import se.iths.entity.Teacher;
 import se.iths.responsehandling.CustomHttpResponse;
 import se.iths.service.TeacherService;
@@ -70,6 +71,17 @@ public class TeacherRest {
         }
 
         // Check if teacher is assigned to any subjects
+        for (Subject subject : teacherService.findAllSubjects()) {
+
+            if (subject.getTeacher() != null) {
+                if (subject.getTeacher().getId() == teacherId) {
+                    throw new WebApplicationException(Response.status(Response.Status.CONFLICT)
+                            .entity(new CustomHttpResponse(409, "Conflict",
+                                    "You can't delete a teacher assigned to any subjects. Remove teacher from subjects and try again")).build());
+                }
+            }
+        }
+
 
         teacherService.deleteTeacher(teacherId);
         return Response.ok().entity(new CustomHttpResponse(200, "OK",
