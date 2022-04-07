@@ -3,7 +3,6 @@ package se.iths.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 public class Teacher {
@@ -16,18 +15,11 @@ public class Teacher {
     @NotBlank
     private String Name;
 
-    /*
-    @OneToMany
-    private List<Subject> subjects;
-     */
-
     public Teacher() {
     }
 
-
-    public Teacher(String name, List<Subject> subjects) {
+    public Teacher(String name) {
         Name = name;
-        //    this.subjects = subjects;
     }
 
     public Long getId() {
@@ -42,13 +34,4 @@ public class Teacher {
         Name = name;
     }
 
-    /*
-    public List<Subject> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(List<Subject> subjects) {
-        this.subjects = subjects;
-    }
-     */
 }

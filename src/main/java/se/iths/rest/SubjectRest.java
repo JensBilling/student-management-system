@@ -118,7 +118,6 @@ public class SubjectRest {
         subjectService.addTeacherToSubject(subjectId, teacherId);
         return Response.ok().entity(new CustomHttpResponse(200, "OK",
                 "Teacher added to subject.")).build();
-
     }
 
     @Path("search")

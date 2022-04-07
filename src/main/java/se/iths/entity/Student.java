@@ -1,11 +1,8 @@
 package se.iths.entity;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Student {
@@ -24,11 +21,6 @@ public class Student {
     @NotBlank
     private String email;
     private String phoneNumber;
-
-    /*@ManyToMany
-    private List<Subject> subjects = new ArrayList<>();
-
-     */
 
     public Student() {
     }
