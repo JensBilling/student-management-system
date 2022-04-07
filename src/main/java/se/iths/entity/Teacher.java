@@ -1,6 +1,8 @@
 package se.iths.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -10,6 +12,8 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
+    @NotBlank
     private String Name;
 
     /*
@@ -23,7 +27,7 @@ public class Teacher {
 
     public Teacher(String name, List<Subject> subjects) {
         Name = name;
-    //    this.subjects = subjects;
+        //    this.subjects = subjects;
     }
 
     public Long getId() {

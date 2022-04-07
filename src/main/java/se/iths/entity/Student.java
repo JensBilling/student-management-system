@@ -14,9 +14,15 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull @NotBlank private String firstName;
-    @NotNull @NotBlank private String lastName;
-    @NotNull @NotBlank private String email;
+    @NotNull
+    @NotBlank
+    private String firstName;
+    @NotNull
+    @NotBlank
+    private String lastName;
+    @NotNull
+    @NotBlank
+    private String email;
     private String phoneNumber;
 
     /*@ManyToMany

@@ -24,18 +24,17 @@ public class StudentRest {
     public Response createStudent(Student student) {
 
         if (studentService.isEmailAddressAlreadyUsed(student.getEmail())) {
-
             throw new WebApplicationException(Response.status(Response.Status.CONFLICT)
                     .entity(new CustomHttpResponse(409, "Conflict",
                             "The email-address is already in use")).build());
         }
+
         try {
             studentService.createStudent(student);
         } catch (ValidationException ve) {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
                     .entity(new CustomHttpResponse(400, "Bad Request",
-                           "It's mandatory to enter you first name, last name and email-address")).build());
-
+                           "It's mandatory to enter your first name, last name and email-address")).build());
         }
 
         return Response.ok().entity(new CustomHttpResponse(200, "OK",
@@ -110,7 +109,6 @@ public class StudentRest {
         }
         studentService.deleteStudent(studentId);
         return Response.ok().entity(new CustomHttpResponse(200, "OK",
-                        "Student with id: " + studentId + " deleted from database."))
-                .build();
+                        "Student with id: " + studentId + " deleted from database.")).build();
     }
 }

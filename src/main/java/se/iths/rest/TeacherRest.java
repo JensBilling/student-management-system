@@ -1,9 +1,11 @@
 package se.iths.rest;
 
 import se.iths.entity.Teacher;
+import se.iths.responsehandling.CustomHttpResponse;
 import se.iths.service.TeacherService;
 
 import javax.inject.Inject;
+import javax.validation.ValidationException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,34 +20,56 @@ public class TeacherRest {
 
     @Path("")
     @POST
-    public Response createTeacher(Teacher teacher){
+    public Response createTeacher(Teacher teacher) {
 
-        // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
+        try {
+            teacherService.createTeacher(teacher);
+        } catch (ValidationException ve) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new CustomHttpResponse(400, "Bad Request",
+                            "It's mandatory to enter a name for the teacher")).build());
+        }
 
-        teacherService.createTeacher(teacher);
-
-        return Response.ok().entity("Teacher created").type(MediaType.TEXT_PLAIN_TYPE).build();
+        return Response.ok().entity(new CustomHttpResponse(200, "OK",
+                "Teacher created")).build();
     }
 
     @Path("{id}")
     @PATCH
-    public Response updateTeacher(@PathParam("id") Long teacherId, @QueryParam("newname") String newName){
+    public Response updateTeacher(@PathParam("id") Long teacherId, @QueryParam("newname") String newName) {
+        //Make sure a teacher with that ID already exists
         Teacher foundTeacher = teacherService.findTeacherFromId(teacherId);
-        foundTeacher.setName(newName);
+
+        if (foundTeacher == null){
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
+                    .entity(new CustomHttpResponse(404, "Not Found",
+                            "No teacher found with id: " + teacherId + ".")).build());
+        }
+
+        try {
+            foundTeacher.setName(newName);
+        } catch (ValidationException ve){
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new CustomHttpResponse(400, "Bad Request",
+                            "It's mandatory to enter a name for the teacher")).build());
+        }
         teacherService.updateTeacher(foundTeacher);
 
-        // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
-
-        return Response.ok().entity("Teacher updated").type(MediaType.TEXT_PLAIN_TYPE).build();
+        return Response.ok().entity(new CustomHttpResponse(200, "OK",
+                "Teacher updated")).build();
     }
 
     @Path("{id}")
     @DELETE
     public Response deleteTeacher(@PathParam("id") Long teacherId) {
+        Teacher foundTeacher = teacherService.findTeacherFromId(teacherId);
+        if (foundTeacher == null) {
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
+                    .entity(new CustomHttpResponse(404, "Not Found",
+                            "No teacher found with id: " + teacherId + ".")).build());
+        }
         teacherService.deleteTeacher(teacherId);
-
-        // TODO: Add error handling and change return to JSON response instead of PLAIN_TEXT
-
-        return Response.ok().entity("Teacher deleted").type(MediaType.TEXT_PLAIN_TYPE).build();
+        return Response.ok().entity(new CustomHttpResponse(200, "OK",
+                "Teacher with id: " + teacherId + " deleted from database.")).build();
     }
 }
