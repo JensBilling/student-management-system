@@ -29,7 +29,6 @@ public class TeacherRest {
                     .entity(new CustomHttpResponse(400, "Bad Request",
                             "It's mandatory to enter a name for the teacher")).build());
         }
-
         return Response.ok().entity(new CustomHttpResponse(200, "OK",
                 "Teacher created")).build();
     }

@@ -26,7 +26,7 @@ public class SubjectService {
         return entityManager.find(Student.class, studentId);
     }
 
-    private Teacher findTeacherById(Long teacherId) {
+    public Teacher findTeacherById(Long teacherId) {
         return entityManager.find(Teacher.class, teacherId);
     }
 
