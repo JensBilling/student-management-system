@@ -39,7 +39,7 @@ public class TeacherRest {
         //Make sure a teacher with that ID already exists
         Teacher foundTeacher = teacherService.findTeacherFromId(teacherId);
 
-        if (foundTeacher == null){
+        if (foundTeacher == null) {
             throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
                     .entity(new CustomHttpResponse(404, "Not Found",
                             "No teacher found with id: " + teacherId + ".")).build());
@@ -47,7 +47,7 @@ public class TeacherRest {
 
         try {
             foundTeacher.setName(newName);
-        } catch (ValidationException ve){
+        } catch (ValidationException ve) {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
                     .entity(new CustomHttpResponse(400, "Bad Request",
                             "It's mandatory to enter a name for the teacher")).build());
@@ -61,12 +61,16 @@ public class TeacherRest {
     @Path("{id}")
     @DELETE
     public Response deleteTeacher(@PathParam("id") Long teacherId) {
+
         Teacher foundTeacher = teacherService.findTeacherFromId(teacherId);
         if (foundTeacher == null) {
             throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
                     .entity(new CustomHttpResponse(404, "Not Found",
                             "No teacher found with id: " + teacherId + ".")).build());
         }
+
+        // Check if teacher is assigned to any subjects
+
         teacherService.deleteTeacher(teacherId);
         return Response.ok().entity(new CustomHttpResponse(200, "OK",
                 "Teacher with id: " + teacherId + " deleted from database.")).build();

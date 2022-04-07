@@ -1,6 +1,7 @@
 package se.iths.service;
 
 import se.iths.entity.Student;
+import se.iths.entity.Subject;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -48,5 +49,9 @@ public class StudentService {
             }
         }
         return false;
+    }
+
+    public List<Subject> findAllSubjects() {
+        return entityManager.createQuery("SELECT s from Subject s", Subject.class).getResultList();
     }
 }

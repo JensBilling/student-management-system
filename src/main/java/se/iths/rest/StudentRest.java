@@ -1,6 +1,7 @@
 package se.iths.rest;
 
 import se.iths.entity.Student;
+import se.iths.entity.Subject;
 import se.iths.responsehandling.CustomHttpResponse;
 import se.iths.service.StudentService;
 
@@ -102,11 +103,24 @@ public class StudentRest {
     @DELETE
     public Response deleteStudent(@PathParam("id") Long studentId) {
         Student foundStudent = studentService.findStudentById(studentId);
+
         if (foundStudent == null) {
             throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND)
                     .entity(new CustomHttpResponse(404, "Not Found",
                             "No student found with id: " + studentId + ".")).build());
         }
+
+        // Check if student is assigned to any subjects
+        for (Subject subject : studentService.findAllSubjects()) {
+            for (Student student : subject.getStudents()) {
+                if (student.getId() == foundStudent.getId()){
+                    throw new WebApplicationException(Response.status(Response.Status.CONFLICT)
+                            .entity(new CustomHttpResponse(409, "Conflict",
+                                    "You can't delete a student assigned to any subjects. Remove student from subjects and try again")).build());
+                }
+            }
+        }
+
         studentService.deleteStudent(studentId);
         return Response.ok().entity(new CustomHttpResponse(200, "OK",
                         "Student with id: " + studentId + " deleted from database.")).build();
