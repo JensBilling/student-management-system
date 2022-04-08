@@ -27,7 +27,9 @@ Replace *{lastname}* in the query parameter with an string search query.
 ## Update student 
 **PATCH request** localhost:8080/student-management-system/api/v1/students/*{studentId}*" 
 
-Replace *{studentId}* in the Path with the id of the student you want to modify. Include updated information in the request message body
+Replace *{studentId}* in the Path with the id of the student you want to modify. 
+
+Include updated information in the request message body:
 
 ``` Json
 {
@@ -58,6 +60,7 @@ Replace *{subjectId}* in the Path with the id of the subject you want to delete.
 
 ## Create teacher
 **POST request** localhost:8080/student-management-system/api/v1/teachers
+
 With JSON request body:
 ``` Json
 {
